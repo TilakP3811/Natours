@@ -4,7 +4,6 @@ const tourRoutes = require('./routes/tourRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 
 const app = express();
-console.log(app.get('env'));
 
 app.use(express.json());
 
