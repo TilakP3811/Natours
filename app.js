@@ -13,7 +13,7 @@ app.use('/api/v1/tours', tourRoutes);
 app.use('/api/v1/users', userRoutes);
 
 app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find url ${req.originalUrl} on the server`));
+  next(new AppError(`Can't find url ${req.originalUrl} on the server`, 404));
 });
 
 app.use(globalErrorHandler);
