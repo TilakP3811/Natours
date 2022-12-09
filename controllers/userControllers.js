@@ -1,11 +1,17 @@
-exports.getAllUsers = (req, res) => {
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find();
+
   res.status(200).json({
     status: 'succcess',
+    length: users.length,
     data: {
-      users: 'this rout is not decleares yet!',
+      users,
     },
   });
-};
+});
 
 exports.createUser = (req, res) => {
   res.status(200).json({
