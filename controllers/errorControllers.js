@@ -40,6 +40,14 @@ const handleMongoValidationError = (err) => {
   return new AppError(message, 400);
 };
 
+const handleJWTError = () => {
+  return new AppError('Invalid token. please log in again!', 401);
+};
+
+const handleJWTExpired = () => {
+  return new AppError('Token expired. please login again!', 401);
+};
+
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
@@ -50,8 +58,10 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
     if (error.name === 'CastError') error = handleMongoCastError(error);
     if (error.code === 11000) error = handleMongoDuplicateField(error);
-    if (err.name === 'ValidationError')
+    if (error.name === 'ValidationError')
       error = handleMongoValidationError(error);
+    if (error.name === 'JsonWebTokenError') error = handleJWTError();
+    if (error.name === 'TokenExpiredError') error = handleJWTExpired();
     sendErrorProd(error, res);
   }
 };
